@@ -14,7 +14,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
         <div class="flex justify-between h-16">
           <div class="flex">
             <div class="flex-shrink-0 flex items-center">
-              <h1 class="text-xl font-semibold text-gray-900">Dashboard</h1>
+              <h1 class="text-xl font-semibold text-gray-900">Система проверки работ</h1>
             </div>
           </div>
           <div class="flex items-center space-x-4">
