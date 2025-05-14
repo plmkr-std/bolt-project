@@ -15,14 +15,14 @@ export class DirectoryService {
       id: '1',
       name: 'Публикация Макаров',
       creationTime: '2024-05-14T10:31:22',
-      changeTime: '2024-03-14T22:45:12',
+      changeTime: '2024-05-14T22:45:12',
       totalSizeBytes: 15728640, // 15MB
       documentsCount: 5
     },
     {
       id: '2',
       name: 'test',
-      creationTime: '2024-04-10T09:15:00',
+      creationTime: '2024-04-10T09:15:23',
       changeTime: '2024-04-19T14:20:00',
       totalSizeBytes: 31457280, // 30MB
       documentsCount: 8
@@ -30,8 +30,8 @@ export class DirectoryService {
     {
       id: '3',
       name: 'example',
-      creationTime: '2024-04-01T11:00:00',
-      changeTime: '2024-04-18T16:30:00',
+      creationTime: '2024-04-01T11:00:19',
+      changeTime: '2024-04-18T16:31:56',
       totalSizeBytes: 5242880, // 5MB
       documentsCount: 3
     }
