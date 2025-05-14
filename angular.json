@@ -40,10 +40,12 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "development": {
-              "buildTarget": "demo:build:development"
+              "buildTarget": "demo:build:development",
+              "host": "0.0.0.0"
             },
             "production": {
-              "buildTarget": "demo:build:production"
+              "buildTarget": "demo:build:production",
+              "host": "0.0.0.0"
             }
           },
           "defaultConfiguration": "development"
