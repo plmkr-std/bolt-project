@@ -317,4 +317,3 @@ export class DocumentsComponent implements OnInit {
     }, 3000);
   }
 }
-```
