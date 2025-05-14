@@ -49,7 +49,7 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
                 (click)="markAllAsRead()"
                 [disabled]="!hasUnread"
               >
-                Прочитать все
+                {{ selectedNotifications.length ? 'Прочитать выбранные' : 'Прочитать все' }}
               </button>
             </div>
           </div>
@@ -216,10 +216,21 @@ export class NotificationsComponent implements OnInit {
   }
 
   markAllAsRead(): void {
-    this.notificationService.markAllAsRead()
-      .subscribe(() => {
-        this.notifications.forEach(n => n.isRead = true);
-      });
+    if (this.selectedNotifications.length) {
+      this.notificationService.markSelectedAsRead(this.selectedNotifications)
+        .subscribe(() => {
+          this.notifications.forEach(n => {
+            if (this.selectedNotifications.includes(n.id)) {
+              n.isRead = true;
+            }
+          });
+        });
+    } else {
+      this.notificationService.markAllAsRead()
+        .subscribe(() => {
+          this.notifications.forEach(n => n.isRead = true);
+        });
+    }
   }
 
   deleteNotification(id: string): void {
