@@ -15,7 +15,7 @@ export class ValidationService {
     // Мок ответа от сервера
     const mockResponse: ValidationResponseDTO = {
       success: true,
-      message: 'Документ успешно проверен',
+      message: 'Статистика по проверке:',
       data: {
         totalChecks: 25,
         passedChecks: 20,
