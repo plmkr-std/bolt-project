@@ -20,7 +20,7 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
             <div class="sm:flex-auto">
               <h1 class="text-2xl font-semibold text-gray-900">Пользователи</h1>
               <p class="mt-2 text-sm text-gray-700">
-                Список всех пользователей системы с их основной информацией
+                Список всех пользователей системы
               </p>
             </div>
           </div>
@@ -129,8 +129,8 @@ export class UsersComponent implements OnInit {
     },
     {
       id: 2,
-      username: 'john_doe',
-      email: 'john.doe@example.com',
+      username: 'admin',
+      email: 'admin@example.com',
       firstName: 'John',
       lastName: 'Doe',
       dateOfBirth: '1990-05-15',
@@ -138,13 +138,13 @@ export class UsersComponent implements OnInit {
       createdAt: '2025-04-10T09:15:30',
       updatedAt: '2025-05-11T14:20:15',
       roles: [
-        { id: 1, name: 'ROLE_USER' }
+        { id: 2, name: 'ROLE_ADMIN' }
       ]
     },
     {
       id: 3,
-      username: 'alice_smith',
-      email: 'alice.smith@example.com',
+      username: 'user',
+      email: 'user@example.com',
       firstName: 'Alice',
       lastName: 'Smith',
       dateOfBirth: '1995-08-22',
@@ -152,14 +152,13 @@ export class UsersComponent implements OnInit {
       createdAt: '2025-03-20T16:40:00',
       updatedAt: '2025-05-10T11:05:45',
       roles: [
-        { id: 1, name: 'ROLE_USER' },
-        { id: 3, name: 'ROLE_MANAGER' }
+        { id: 1, name: 'ROLE_USER' }
       ]
     },
     {
       id: 4,
-      username: 'robert_wilson',
-      email: 'robert.wilson@example.com',
+      username: 'guest',
+      email: 'guest@example.com',
       firstName: 'Robert',
       lastName: 'Wilson',
       dateOfBirth: '1988-11-30',
