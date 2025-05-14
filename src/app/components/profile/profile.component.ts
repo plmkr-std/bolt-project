@@ -42,10 +42,6 @@ import { HeaderComponent } from '../shared/header/header.component';
               </div>
             </div>
 
-            <div class="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-md mb-4">
-              Данные изменены успешно!
-            </div>
-
             @if (successMessage) {
               <div class="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-md mb-4">
                 {{ successMessage }}
