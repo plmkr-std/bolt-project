@@ -204,14 +204,14 @@ export class ProfileComponent implements OnInit {
     // Пример данных пользователя
     this.userInfo = {
       id: 1,
-      username: 'john_doe',
-      email: 'john@example.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      dateOfBirth: '1990-01-01',
+      username: 'plmkr',
+      email: 'pmakarovstudy@gmail.com',
+      firstName: 'Павел',
+      lastName: 'Макаров',
+      dateOfBirth: '2002-01-29',
       gender: 'MALE',
-      createdAt: '2024-01-01T10:00:00',
-      updatedAt: '2024-03-15T15:30:00',
+      createdAt: '2025-05-01T11:29:55',
+      updatedAt: '2024-05-12T15:30:04',
       roles: [
         { id: 1, name: 'ROLE_USER' },
         { id: 2, name: 'ROLE_ADMIN' }
