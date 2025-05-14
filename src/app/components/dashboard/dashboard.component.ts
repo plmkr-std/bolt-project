@@ -71,33 +71,75 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                 </div>
 
                 @if (validationResponse) {
-                  <div class="mt-4 p-4 rounded-lg" [class.bg-success-50]="validationResponse.success" [class.bg-error-50]="!validationResponse.success">
-                    <p class="font-medium" [class.text-success-700]="validationResponse.success" [class.text-error-700]="!validationResponse.success">
-                      {{ validationResponse.message }}
-                    </p>
-                    @if (validationResponse.data) {
-                      <div class="mt-2 space-y-1 text-sm">
-                        <p>Всего проверок: {{ validationResponse.data.totalChecks }}</p>
-                        <p>Пройдено проверок: {{ validationResponse.data.passedChecks }}</p>
-                        <p>Не пройдено проверок: {{ validationResponse.data.failedChecks }}</p>
-                        <p>Время проверки: {{ validationResponse.data.durationMs }}мс</p>
-                        <p>Количество комментариев: {{ validationResponse.data.commentsCount }}</p>
-                        <p>Количество исправлений: {{ validationResponse.data.fixCount }}</p>
+                  <div class="mt-6 bg-white rounded-lg border shadow-sm">
+                    <div class="p-4 border-b">
+                      <h3 class="text-lg font-semibold text-gray-900">Результаты проверки</h3>
+                    </div>
+                    <div class="p-4 space-y-4">
+                      <!-- Статус проверки -->
+                      <div class="flex items-center" [class.text-success-600]="validationResponse.success" [class.text-error-600]="!validationResponse.success">
+                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          @if (validationResponse.success) {
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          } @else {
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          }
+                        </svg>
+                        <span class="font-medium">{{ validationResponse.message }}</span>
                       </div>
-                      <div class="mt-4">
-                        <button
-                          class="btn btn-primary"
-                          (click)="downloadDocument()"
-                        >
-                          <span class="flex items-center">
+
+                      @if (validationResponse.data) {
+                        <!-- Прогресс бар -->
+                        <div class="space-y-2">
+                          <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Пройдено проверок</span>
+                            <span class="font-medium">{{ validationResponse.data.passedChecks }} из {{ validationResponse.data.totalChecks }}</span>
+                          </div>
+                          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              class="h-full rounded-full transition-all duration-500"
+                              [style.width.%]="(validationResponse.data.passedChecks / validationResponse.data.totalChecks) * 100"
+                              [class.bg-success-500]="validationResponse.data.failedChecks === 0"
+                              [class.bg-warning-500]="validationResponse.data.failedChecks > 0 && validationResponse.data.failedChecks <= 3"
+                              [class.bg-error-500]="validationResponse.data.failedChecks > 3"
+                            ></div>
+                          </div>
+                        </div>
+
+                        <!-- Статистика -->
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                          <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-sm text-gray-500">Время проверки</div>
+                            <div class="text-lg font-semibold text-gray-900">{{ validationResponse.data.durationMs }}мс</div>
+                          </div>
+                          <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-sm text-gray-500">Комментарии</div>
+                            <div class="text-lg font-semibold text-gray-900">{{ validationResponse.data.commentsCount }}</div>
+                          </div>
+                          <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-sm text-gray-500">Исправления</div>
+                            <div class="text-lg font-semibold text-gray-900">{{ validationResponse.data.fixCount }}</div>
+                          </div>
+                          <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-sm text-gray-500">Ошибки</div>
+                            <div class="text-lg font-semibold text-gray-900">{{ validationResponse.data.failedChecks }}</div>
+                          </div>
+                        </div>
+
+                        <!-- Кнопка скачивания -->
+                        <div class="mt-6">
+                          <button
+                            class="btn btn-primary w-full flex items-center justify-center"
+                            (click)="downloadDocument()"
+                          >
                             <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
-                            Скачать документ
-                          </span>
-                        </button>
-                      </div>
-                    }
+                            Скачать проверенный документ
+                          </button>
+                        </div>
+                      }
+                    </div>
                   </div>
                 }
               </div>
