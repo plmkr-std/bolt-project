@@ -184,17 +184,17 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                 <!-- Кнопки управления -->
                 <div class="flex justify-end space-x-3">
                   <button
-                    class="btn btn-secondary"
+                    class="btn btn-secondary min-w-[140px]"
                     (click)="showSettingsModal = true"
                   >
                     Изменить настройки
                   </button>
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-primary min-w-[140px]"
                     [disabled]="!selectedFile || isValidating"
                     (click)="validateDocument()"
                   >
-                    <span>{{ isValidating ? 'Проверка...' : 'Проверить документ' }}</span>
+                    <span>{{ isValidating ? 'Проверка...' : 'Проверить' }}</span>
                   </button>
                 </div>
               </div>
