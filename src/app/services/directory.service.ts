@@ -37,7 +37,7 @@ export class DirectoryService {
     },
     {
       id: '4',
-      name: 'Курсовые работы 2025',
+      name: 'НИР',
       creationTime: '2025-05-15T09:30:00',
       changeTime: '2025-05-15T15:45:33',
       totalSizeBytes: 52428800, // 50MB
@@ -45,7 +45,7 @@ export class DirectoryService {
     },
     {
       id: '5',
-      name: 'Дипломы весна 2025',
+      name: 'ВКР',
       creationTime: '2025-05-14T16:20:15',
       changeTime: '2025-05-15T11:30:45',
       totalSizeBytes: 83886080, // 80MB
@@ -53,7 +53,7 @@ export class DirectoryService {
     },
     {
       id: '6',
-      name: 'Архив 2024',
+      name: 'Стили',
       creationTime: '2025-05-13T14:15:30',
       changeTime: '2025-05-15T10:25:18',
       totalSizeBytes: 104857600, // 100MB
@@ -61,19 +61,11 @@ export class DirectoryService {
     },
     {
       id: '7',
-      name: 'Отчеты май 2025',
+      name: 'Тесть',
       creationTime: '2025-05-15T08:45:12',
       changeTime: '2025-05-15T14:20:33',
       totalSizeBytes: 20971520, // 20MB
       documentsCount: 7
-    },
-    {
-      id: '8',
-      name: 'Черновики',
-      creationTime: '2025-05-14T11:30:45',
-      changeTime: '2025-05-15T09:15:22',
-      totalSizeBytes: 10485760, // 10MB
-      documentsCount: 4
     }
   ];
 
