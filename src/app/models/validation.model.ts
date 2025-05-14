@@ -27,5 +27,12 @@ export interface TextSettings {
 export interface ValidationResponseDTO {
   success: boolean;
   message: string;
-  data?: any;
+  data?: {
+    totalChecks: number;
+    passedChecks: number;
+    failedChecks: number;
+    durationMs: number;
+    commentsCount: number;
+    fixCount: number;
+  };
 }
