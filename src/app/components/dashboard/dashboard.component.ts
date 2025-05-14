@@ -91,15 +91,7 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
 
               <!-- Настройки валидации -->
               <div class="space-y-6">
-                <div class="flex justify-between items-center">
-                  <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
-                  <button
-                    class="btn btn-secondary"
-                    (click)="showSettingsModal = true"
-                  >
-                    Изменить настройки
-                  </button>
-                </div>
+                <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
 
                 <!-- Текущие настройки -->
                 <div class="space-y-4">
@@ -134,8 +126,14 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
               </div>
             </div>
 
-            <!-- Кнопка валидации -->
-            <div class="mt-6 flex justify-end">
+            <!-- Кнопки -->
+            <div class="mt-6 flex justify-end space-x-3">
+              <button
+                class="btn btn-secondary"
+                (click)="showSettingsModal = true"
+              >
+                Изменить настройки
+              </button>
               <button
                 class="btn btn-primary"
                 [disabled]="!selectedFile || isValidating"
