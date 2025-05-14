@@ -20,8 +20,9 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
 
             <!-- Основной контент -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Область загрузки файла -->
-              <div>
+              <!-- Левая колонка: Загрузка файла и результаты -->
+              <div class="space-y-6">
+                <!-- Область загрузки файла -->
                 <div
                   class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center"
                   [class.border-primary-500]="isDragging"
@@ -70,8 +71,9 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                   }
                 </div>
 
+                <!-- Результаты проверки -->
                 @if (validationResponse) {
-                  <div class="mt-6 bg-white rounded-lg border shadow-sm">
+                  <div class="bg-white rounded-lg border shadow-sm">
                     <div class="p-4 border-b">
                       <h3 class="text-lg font-semibold text-gray-900">Результаты проверки</h3>
                     </div>
@@ -144,7 +146,7 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                 }
               </div>
 
-              <!-- Настройки валидации -->
+              <!-- Правая колонка: Настройки -->
               <div class="space-y-6">
                 <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
 
@@ -178,24 +180,24 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                     <p class="text-sm text-gray-600">{{ settings.toFix ? 'Включено' : 'Выключено' }}</p>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Кнопки -->
-            <div class="mt-6 flex justify-end space-x-3">
-              <button
-                class="btn btn-secondary"
-                (click)="showSettingsModal = true"
-              >
-                Изменить настройки
-              </button>
-              <button
-                class="btn btn-primary"
-                [disabled]="!selectedFile || isValidating"
-                (click)="validateDocument()"
-              >
-                <span>{{ isValidating ? 'Проверка...' : 'Проверить документ' }}</span>
-              </button>
+                <!-- Кнопки управления -->
+                <div class="flex justify-end space-x-3">
+                  <button
+                    class="btn btn-secondary"
+                    (click)="showSettingsModal = true"
+                  >
+                    Изменить настройки
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    [disabled]="!selectedFile || isValidating"
+                    (click)="validateDocument()"
+                  >
+                    <span>{{ isValidating ? 'Проверка...' : 'Проверить документ' }}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
