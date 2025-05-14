@@ -14,26 +14,66 @@ export class DirectoryService {
     {
       id: '1',
       name: 'Публикация Макаров',
-      creationTime: '2024-05-14T10:31:22',
-      changeTime: '2024-05-14T22:45:12',
+      creationTime: '2025-05-14T10:31:22',
+      changeTime: '2025-05-14T22:45:12',
       totalSizeBytes: 15728640, // 15MB
       documentsCount: 5
     },
     {
       id: '2',
       name: 'test',
-      creationTime: '2024-04-10T09:15:23',
-      changeTime: '2024-04-19T14:20:00',
+      creationTime: '2025-04-10T09:15:23',
+      changeTime: '2025-04-19T14:20:00',
       totalSizeBytes: 31457280, // 30MB
       documentsCount: 8
     },
     {
       id: '3',
       name: 'example',
-      creationTime: '2024-04-01T11:00:19',
-      changeTime: '2024-04-18T16:31:56',
+      creationTime: '2025-04-01T11:00:19',
+      changeTime: '2025-04-18T16:31:56',
       totalSizeBytes: 5242880, // 5MB
       documentsCount: 3
+    },
+    {
+      id: '4',
+      name: 'Курсовые работы 2025',
+      creationTime: '2025-05-15T09:30:00',
+      changeTime: '2025-05-15T15:45:33',
+      totalSizeBytes: 52428800, // 50MB
+      documentsCount: 12
+    },
+    {
+      id: '5',
+      name: 'Дипломы весна 2025',
+      creationTime: '2025-05-14T16:20:15',
+      changeTime: '2025-05-15T11:30:45',
+      totalSizeBytes: 83886080, // 80MB
+      documentsCount: 15
+    },
+    {
+      id: '6',
+      name: 'Архив 2024',
+      creationTime: '2025-05-13T14:15:30',
+      changeTime: '2025-05-15T10:25:18',
+      totalSizeBytes: 104857600, // 100MB
+      documentsCount: 25
+    },
+    {
+      id: '7',
+      name: 'Отчеты май 2025',
+      creationTime: '2025-05-15T08:45:12',
+      changeTime: '2025-05-15T14:20:33',
+      totalSizeBytes: 20971520, // 20MB
+      documentsCount: 7
+    },
+    {
+      id: '8',
+      name: 'Черновики',
+      creationTime: '2025-05-14T11:30:45',
+      changeTime: '2025-05-15T09:15:22',
+      totalSizeBytes: 10485760, // 10MB
+      documentsCount: 4
     }
   ];
 
