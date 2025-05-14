@@ -230,7 +230,7 @@ export class DocumentsComponent implements OnInit {
         totalChecks: 22,
         passedChecks: 15,
         failedChecks: 7,
-        durationMs: Math.floor(Math.random() * 2000) + 500,
+        durationMs: 4067,
         commentsCount: 3,
         fixCount: 0
       }
