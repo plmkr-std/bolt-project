@@ -13,25 +13,25 @@ export class DirectoryService {
   private mockDirectories: DocumentDirectoryDTO[] = [
     {
       id: '1',
-      name: 'Курсовые работы',
-      creationTime: '2024-03-15T10:30:00',
-      changeTime: '2024-03-20T15:45:00',
+      name: 'Публикация Макаров',
+      creationTime: '2024-05-14T10:31:22',
+      changeTime: '2024-03-14T22:45:12',
       totalSizeBytes: 15728640, // 15MB
       documentsCount: 5
     },
     {
       id: '2',
-      name: 'Дипломные работы',
-      creationTime: '2024-02-10T09:15:00',
-      changeTime: '2024-03-19T14:20:00',
+      name: 'test',
+      creationTime: '2024-04-10T09:15:00',
+      changeTime: '2024-04-19T14:20:00',
       totalSizeBytes: 31457280, // 30MB
       documentsCount: 8
     },
     {
       id: '3',
-      name: 'Отчеты',
-      creationTime: '2024-03-01T11:00:00',
-      changeTime: '2024-03-18T16:30:00',
+      name: 'example',
+      creationTime: '2024-04-01T11:00:00',
+      changeTime: '2024-04-18T16:30:00',
       totalSizeBytes: 5242880, // 5MB
       documentsCount: 3
     }
