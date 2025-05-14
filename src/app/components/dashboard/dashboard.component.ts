@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../shared/header/header.component';
 import { ValidationService } from '../../services/validation.service';
 import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/validation.model';
+import { ValidationSettingsModalComponent } from './validation-settings-modal/validation-settings-modal.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, ValidationSettingsModalComponent],
   template: `
     <div class="min-h-screen bg-gray-50">
       <app-header />
@@ -74,157 +75,60 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/valid
                     <p class="font-medium" [class.text-success-700]="validationResponse.success" [class.text-error-700]="!validationResponse.success">
                       {{ validationResponse.message }}
                     </p>
+                    @if (validationResponse.data) {
+                      <div class="mt-2 space-y-1 text-sm">
+                        <p>Всего проверок: {{ validationResponse.data.totalChecks }}</p>
+                        <p>Пройдено проверок: {{ validationResponse.data.passedChecks }}</p>
+                        <p>Не пройдено проверок: {{ validationResponse.data.failedChecks }}</p>
+                        <p>Время проверки: {{ validationResponse.data.durationMs }}мс</p>
+                        <p>Количество комментариев: {{ validationResponse.data.commentsCount }}</p>
+                        <p>Количество исправлений: {{ validationResponse.data.fixCount }}</p>
+                      </div>
+                    }
                   </div>
                 }
               </div>
 
               <!-- Настройки валидации -->
               <div class="space-y-6">
-                <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
-
-                <!-- Настройки раздела -->
-                <div class="space-y-4">
-                  <h4 class="text-sm font-medium text-gray-700">Настройки раздела</h4>
-                  
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Формат страницы
-                    </label>
-                    <select
-                      [(ngModel)]="settings.sectionSettings.pageFormat"
-                      class="form-input"
-                    >
-                      <option value="A4">A4</option>
-                      <option value="A3">A3</option>
-                      <option value="Letter">Letter</option>
-                    </select>
-                  </div>
-
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Шаблон полей
-                    </label>
-                    <select
-                      [(ngModel)]="settings.sectionSettings.fieldTemplate"
-                      class="form-input"
-                    >
-                      <option value="standard">Стандартный</option>
-                      <option value="wide">Широкий</option>
-                      <option value="narrow">Узкий</option>
-                    </select>
-                  </div>
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
+                  <button
+                    class="btn btn-secondary"
+                    (click)="showSettingsModal = true"
+                  >
+                    Изменить настройки
+                  </button>
                 </div>
 
-                <!-- Настройки параграфа -->
+                <!-- Текущие настройки -->
                 <div class="space-y-4">
-                  <h4 class="text-sm font-medium text-gray-700">Настройки параграфа</h4>
-                  
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Абзацный отступ (см)
-                    </label>
-                    <input
-                      type="number"
-                      [(ngModel)]="settings.paragraphSettings.firstLine"
-                      class="form-input"
-                      step="0.1"
-                      min="0"
-                    >
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-700">Формат страницы</h4>
+                    <p class="text-sm text-gray-600">{{ settings.sectionSettings.pageFormat }}</p>
                   </div>
 
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Межстрочный интервал
-                    </label>
-                    <input
-                      type="number"
-                      [(ngModel)]="settings.paragraphSettings.lineSpacing"
-                      class="form-input"
-                      step="0.1"
-                      min="1"
-                    >
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-700">Шаблон полей</h4>
+                    <p class="text-sm text-gray-600">{{ settings.sectionSettings.fieldTemplate }}</p>
                   </div>
 
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Интервал перед (пт)
-                    </label>
-                    <input
-                      type="number"
-                      [(ngModel)]="settings.paragraphSettings.intervalBeforeSpacing"
-                      class="form-input"
-                      min="0"
-                    >
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-700">Шрифт</h4>
+                    <p class="text-sm text-gray-600">{{ settings.textSettings.fontStyle }} ({{ settings.textSettings.leftBorderFontSize }}-{{ settings.textSettings.rightBorderFontSize }}pt)</p>
                   </div>
 
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Интервал после (пт)
-                    </label>
-                    <input
-                      type="number"
-                      [(ngModel)]="settings.paragraphSettings.intervalAfterSpacing"
-                      class="form-input"
-                      min="0"
-                    >
-                  </div>
-                </div>
-
-                <!-- Настройки текста -->
-                <div class="space-y-4">
-                  <h4 class="text-sm font-medium text-gray-700">Настройки текста</h4>
-                  
-                  <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                      Стиль шрифта
-                    </label>
-                    <select
-                      [(ngModel)]="settings.textSettings.fontStyle"
-                      class="form-input"
-                    >
-                      <option value="Times New Roman">Times New Roman</option>
-                      <option value="Arial">Arial</option>
-                      <option value="Calibri">Calibri</option>
-                    </select>
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-700">Параграф</h4>
+                    <p class="text-sm text-gray-600">
+                      Отступ: {{ settings.paragraphSettings.firstLine }}см,
+                      Интервал: {{ settings.paragraphSettings.lineSpacing }}
+                    </p>
                   </div>
 
-                  <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-2">
-                      <label class="block text-sm font-medium text-gray-700">
-                        Мин. размер шрифта
-                      </label>
-                      <input
-                        type="number"
-                        [(ngModel)]="settings.textSettings.leftBorderFontSize"
-                        class="form-input"
-                        min="8"
-                      >
-                    </div>
-
-                    <div class="space-y-2">
-                      <label class="block text-sm font-medium text-gray-700">
-                        Макс. размер шрифта
-                      </label>
-                      <input
-                        type="number"
-                        [(ngModel)]="settings.textSettings.rightBorderFontSize"
-                        class="form-input"
-                        min="8"
-                      >
-                    </div>
-                  </div>
-                </div>
-
-
-                <!-- Дополнительные настройки -->
-                <div class="space-y-4">
-                  <div class="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="settings.toFix"
-                      class="form-checkbox"
-                    >
-                    <span class="text-sm text-gray-700">Автоматически исправлять ошибки</span>
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-700">Автоисправление</h4>
+                    <p class="text-sm text-gray-600">{{ settings.toFix ? 'Включено' : 'Выключено' }}</p>
                   </div>
                 </div>
               </div>
@@ -244,6 +148,14 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/valid
         </div>
       </main>
     </div>
+
+    @if (showSettingsModal) {
+      <app-validation-settings-modal
+        [settings]="settings"
+        (save)="onSettingsSave($event)"
+        (cancel)="showSettingsModal = false"
+      />
+    }
   `
 })
 export class DashboardComponent {
@@ -251,6 +163,7 @@ export class DashboardComponent {
   selectedFile: File | null = null;
   isValidating = false;
   validationResponse: ValidationResponseDTO | null = null;
+  showSettingsModal = false;
 
   settings: ValidationSettingsDTO = {
     sectionSettings: {
@@ -319,13 +232,9 @@ export class DashboardComponent {
     this.validationResponse = null;
   }
 
-  toggleStructureElement(element: string): void {
-    const index = this.settings.structureElements.indexOf(element);
-    if (index === -1) {
-      this.settings.structureElements.push(element);
-    } else {
-      this.settings.structureElements.splice(index, 1);
-    }
+  onSettingsSave(newSettings: ValidationSettingsDTO): void {
+    this.settings = { ...newSettings };
+    this.showSettingsModal = false;
   }
 
   validateDocument(): void {
