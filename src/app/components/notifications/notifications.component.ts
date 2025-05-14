@@ -38,18 +38,18 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
             <h3 class="text-lg font-semibold text-gray-900">Уведомления</h3>
             <div class="flex space-x-2">
               <button
+                class="text-sm text-error-600 hover:text-error-800"
+                [disabled]="!selectedNotifications.length && !notifications.length"
+                (click)="confirmDeleteSelected()"
+              >
+                {{ selectedNotifications.length ? 'Удалить выбранные' : 'Удалить все' }}
+              </button>
+              <button
                 class="text-sm text-gray-600 hover:text-primary-600"
                 (click)="markAllAsRead()"
                 [disabled]="!hasUnread"
               >
                 Прочитать все
-              </button>
-              <button
-                class="text-sm text-gray-600 hover:text-primary-600"
-                (click)="deleteAll()"
-                [disabled]="!notifications.length"
-              >
-                Очистить все
               </button>
             </div>
           </div>
@@ -75,13 +75,21 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
                   class="px-4 py-3 hover:bg-gray-50 flex items-start justify-between transition-colors duration-200"
                   [class.bg-gray-50]="notification.isRead"
                 >
-                  <div class="flex-1">
-                    <p class="text-sm text-gray-900" [class.font-medium]="!notification.isRead">
-                      {{ notification.message }}
-                    </p>
-                    <p class="text-xs text-gray-500 mt-1">
-                      {{ notification.createdAt | date:'dd.MM.yyyy HH:mm' }}
-                    </p>
+                  <div class="flex items-start space-x-3">
+                    <input
+                      type="checkbox"
+                      class="mt-1 h-4 w-4 rounded border-gray-300"
+                      [checked]="isSelected(notification.id)"
+                      (change)="toggleSelection(notification.id)"
+                    >
+                    <div>
+                      <p class="text-sm text-gray-900" [class.font-medium]="!notification.isRead">
+                        {{ notification.message }}
+                      </p>
+                      <p class="text-xs text-gray-500 mt-1">
+                        {{ notification.createdAt | date:'dd.MM.yyyy HH:mm' }}
+                      </p>
+                    </div>
                   </div>
                   <div class="ml-4 flex space-x-2">
                     @if (!notification.isRead) {
@@ -119,6 +127,7 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
 })
 export class NotificationsComponent implements OnInit {
   notifications: NotificationDTO[] = [];
+  selectedNotifications: string[] = [];
   isOpen = false;
   currentFilter: NotificationFilter = 'all';
 
@@ -155,6 +164,27 @@ export class NotificationsComponent implements OnInit {
     return this.unreadCount > 0;
   }
 
+  isSelected(id: string): boolean {
+    return this.selectedNotifications.includes(id);
+  }
+
+  toggleSelection(id: string): void {
+    const index = this.selectedNotifications.indexOf(id);
+    if (index === -1) {
+      this.selectedNotifications.push(id);
+    } else {
+      this.selectedNotifications.splice(index, 1);
+    }
+  }
+
+  confirmDeleteSelected(): void {
+    if (this.selectedNotifications.length) {
+      this.deleteSelected(this.selectedNotifications);
+    } else {
+      this.deleteAll();
+    }
+  }
+
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
   }
@@ -171,6 +201,7 @@ export class NotificationsComponent implements OnInit {
     this.notificationService.getCurrentUserNotifications()
       .subscribe(notifications => {
         this.notifications = notifications;
+        this.selectedNotifications = [];
       });
   }
 
@@ -195,6 +226,15 @@ export class NotificationsComponent implements OnInit {
     this.notificationService.deleteNotification(id)
       .subscribe(() => {
         this.notifications = this.notifications.filter(n => n.id !== id);
+        this.selectedNotifications = this.selectedNotifications.filter(selectedId => selectedId !== id);
+      });
+  }
+
+  deleteSelected(ids: string[]): void {
+    this.notificationService.deleteSelected(ids)
+      .subscribe(() => {
+        this.notifications = this.notifications.filter(n => !ids.includes(n.id));
+        this.selectedNotifications = [];
       });
   }
 
@@ -202,6 +242,7 @@ export class NotificationsComponent implements OnInit {
     this.notificationService.deleteAll()
       .subscribe(() => {
         this.notifications = [];
+        this.selectedNotifications = [];
       });
   }
 }
