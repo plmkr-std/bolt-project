@@ -50,7 +50,7 @@ export const routes: Routes = [
   },
   {
     path: 'storage',
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('./components/directories/directories.component').then(m => m.DirectoriesComponent),
     canActivate: [authGuard]
   },
   {
