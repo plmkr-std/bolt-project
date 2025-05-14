@@ -111,7 +111,66 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
   `
 })
 export class UsersComponent implements OnInit {
-  users: UserInfoDTO[] = [];
+  users: UserInfoDTO[] = [
+    {
+      id: 1,
+      username: 'plmkr',
+      email: 'pmakarovstudy@gmail.com',
+      firstName: 'Павел',
+      lastName: 'Макаров',
+      dateOfBirth: '2002-01-29',
+      gender: 'MALE',
+      createdAt: '2025-05-01T11:29:55',
+      updatedAt: '2024-05-12T15:30:04',
+      roles: [
+        { id: 1, name: 'ROLE_USER' },
+        { id: 2, name: 'ROLE_ADMIN' }
+      ]
+    },
+    {
+      id: 2,
+      username: 'john_doe',
+      email: 'john.doe@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      dateOfBirth: '1990-05-15',
+      gender: 'MALE',
+      createdAt: '2025-04-10T09:15:30',
+      updatedAt: '2025-05-11T14:20:15',
+      roles: [
+        { id: 1, name: 'ROLE_USER' }
+      ]
+    },
+    {
+      id: 3,
+      username: 'alice_smith',
+      email: 'alice.smith@example.com',
+      firstName: 'Alice',
+      lastName: 'Smith',
+      dateOfBirth: '1995-08-22',
+      gender: 'FEMALE',
+      createdAt: '2025-03-20T16:40:00',
+      updatedAt: '2025-05-10T11:05:45',
+      roles: [
+        { id: 1, name: 'ROLE_USER' },
+        { id: 3, name: 'ROLE_MANAGER' }
+      ]
+    },
+    {
+      id: 4,
+      username: 'robert_wilson',
+      email: 'robert.wilson@example.com',
+      firstName: 'Robert',
+      lastName: 'Wilson',
+      dateOfBirth: '1988-11-30',
+      gender: 'MALE',
+      createdAt: '2025-02-15T13:25:10',
+      updatedAt: '2025-05-09T09:30:20',
+      roles: [
+        { id: 1, name: 'ROLE_USER' }
+      ]
+    }
+  ];
   errorMessage: string | null = null;
   successMessage: string | null = null;
   userToDelete: UserInfoDTO | null = null;
@@ -122,7 +181,8 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    // In a real application, this would fetch users from the server
+    // this.loadUsers();
   }
 
   loadUsers(): void {
@@ -147,20 +207,30 @@ export class UsersComponent implements OnInit {
   deleteUser(): void {
     if (!this.userToDelete) return;
 
-    this.userService.deleteUser(this.userToDelete.id).subscribe({
-      next: () => {
-        this.successMessage = `Пользователь ${this.userToDelete?.username} успешно удален`;
-        this.users = this.users.filter(user => user.id !== this.userToDelete?.id);
-        this.userToDelete = null;
-        
-        setTimeout(() => {
-          this.successMessage = null;
-        }, 3000);
-      },
-      error: (error) => {
-        this.errorMessage = error.message || 'Ошибка при удалении пользователя';
-        this.userToDelete = null;
-      }
-    });
+    // In a real application, this would delete the user from the server
+    this.users = this.users.filter(user => user.id !== this.userToDelete?.id);
+    this.successMessage = `Пользователь ${this.userToDelete?.username} успешно удален`;
+    this.userToDelete = null;
+    
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 3000);
+
+    // Real API call would look like this:
+    // this.userService.deleteUser(this.userToDelete.id).subscribe({
+    //   next: () => {
+    //     this.successMessage = `Пользователь ${this.userToDelete?.username} успешно удален`;
+    //     this.users = this.users.filter(user => user.id !== this.userToDelete?.id);
+    //     this.userToDelete = null;
+    //     
+    //     setTimeout(() => {
+    //       this.successMessage = null;
+    //     }, 3000);
+    //   },
+    //   error: (error) => {
+    //     this.errorMessage = error.message || 'Ошибка при удалении пользователя';
+    //     this.userToDelete = null;
+    //   }
+    // });
   }
 }
