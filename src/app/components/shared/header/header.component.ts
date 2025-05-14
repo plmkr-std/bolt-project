@@ -14,7 +14,9 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
         <div class="flex justify-between h-16">
           <div class="flex">
             <div class="flex-shrink-0 flex items-center">
-              <h1 class="text-xl font-semibold text-gray-900">Система проверки работ</h1>
+              <a routerLink="/dashboard" class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors duration-200">
+                Система проверки работ
+              </a>
             </div>
           </div>
           <div class="flex items-center space-x-4">
