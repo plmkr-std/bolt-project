@@ -210,14 +210,18 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit(): void {
     const creationTimes = [
+      '2025-05-15T16:30:00',
+      '2025-05-15T14:45:22',
+      '2025-05-15T11:20:42',
+      '2025-05-15T09:15:33',
+      '2025-05-15T08:40:18',
       '2025-05-14T21:30:00',
       '2025-05-14T21:21:22',
       '2025-05-14T21:19:42',
-      '2025-05-14T12:15:33',
-      '2025-05-14T11:40:18'
+      '2025-05-14T12:15:33'
     ];
 
-    this.documents = Array.from({ length: 5 }, (_, i) => ({
+    this.documents = Array.from({ length: 9 }, (_, i) => ({
       id: `doc-${i + 1}`,
       name: `Публикация Макаров_validated_${new Date(creationTimes[i]).getTime()}`,
       creationTime: creationTimes[i],
@@ -313,3 +317,4 @@ export class DocumentsComponent implements OnInit {
     }, 3000);
   }
 }
+```
