@@ -144,30 +144,7 @@ import { ValidationSettingsDTO } from '../../../models/validation.model';
               </div>
             </div>
 
-            <!-- Структурные элементы -->
-            <div>
-              <h3 class="text-lg font-medium text-gray-900 mb-4">Структурные элементы</h3>
-              <div class="space-y-2">
-                <label class="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    class="form-checkbox"
-                    [checked]="tempSettings.structureElements.includes('title')"
-                    (change)="toggleStructureElement('title')"
-                  >
-                  <span class="ml-2">Титульный лист</span>
-                </label>
-                <label class="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    class="form-checkbox"
-                    [checked]="tempSettings.structureElements.includes('contents')"
-                    (change)="toggleStructureElement('contents')"
-                  >
-                  <span class="ml-2">Оглавление</span>
-                </label>
-              </div>
-            </div>
+            
 
             <!-- Дополнительные настройки -->
             <div>
