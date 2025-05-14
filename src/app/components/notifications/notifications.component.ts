@@ -58,7 +58,7 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
           <div class="px-4 py-2 border-b border-gray-200 flex space-x-4">
             <button
               *ngFor="let f of ['all', 'unread', 'read'] as const"
-              (click)="currentFilter = f"
+              (click)="currentFilter = f as NotificationFilter"
               class="text-sm"
               [class.text-primary-600]="currentFilter === f"
               [class.text-gray-600]="currentFilter !== f"
