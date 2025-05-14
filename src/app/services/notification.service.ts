@@ -11,12 +11,23 @@ export class NotificationService {
 
   // Временные данные для примера
   private mockNotifications: NotificationDTO[] = [
-    {
-      id: '1',
-      message: 'Ваша работа была проверена',
+     {
+      id: '0',
+      message: 'Работа была успешно проверена',
       recipientId: 1,
       isRead: false,
-      createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(), // 5 минут назад
+      createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(), // 5 минут назад
+      entity: {
+        id: '123',
+        type: 'WORK'
+      }
+    },
+    {
+      id: '1',
+      message: 'Email был изменен',
+      recipientId: 1,
+      isRead: false,
+      createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 5 минут назад
       entity: {
         id: '123',
         type: 'WORK'
@@ -24,7 +35,7 @@ export class NotificationService {
     },
     {
       id: '2',
-      message: 'Добавлен новый комментарий к вашей работе',
+      message: 'Пароль был изменен',
       recipientId: 1,
       isRead: true,
       createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // 1 час назад
@@ -35,7 +46,7 @@ export class NotificationService {
     },
     {
       id: '3',
-      message: 'Система обновлена до версии 2.0',
+      message: 'Вы вошли в аккаунт',
       recipientId: 1,
       isRead: false,
       createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 день назад
@@ -43,7 +54,17 @@ export class NotificationService {
         id: '456',
         type: 'SYSTEM'
       }
-    }
+    },
+    {
+      id: '4',
+      message: 'Аккаунт был создан',
+      recipientId: 1,
+      isRead: true,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), // 2 день назад
+      entity: {
+        id: '456',
+        type: 'SYSTEM'
+      }
   ];
 
   constructor(private http: HttpClient) {}
