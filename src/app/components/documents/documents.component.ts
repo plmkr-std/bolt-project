@@ -209,12 +209,18 @@ export class DocumentsComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Mock data
-    const now = new Date();
+    const creationTimes = [
+      '2024-05-14T10:31:22',
+      '2024-03-22T15:45:33',
+      '2024-01-15T09:20:45',
+      '2023-12-05T14:55:12',
+      '2023-11-18T11:30:08'
+    ];
+
     this.documents = Array.from({ length: 5 }, (_, i) => ({
       id: `doc-${i + 1}`,
-      name: `Публикация Макаров_validated_${now.getTime() - i * 1000000}`,
-      creationTime: new Date(now.getTime() - i * 86400000).toISOString(),
+      name: `Публикация Макаров_validated_${new Date(creationTimes[i]).getTime()}`,
+      creationTime: creationTimes[i],
       sizeBytes: Math.random() * 10000000 + 1000000,
       validationStats: {
         totalChecks: Math.floor(Math.random() * 20) + 10,
