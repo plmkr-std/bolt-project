@@ -15,6 +15,18 @@ export class UserService {
     return this.http.get<UserInfoDTO>(`${this.API_URL}/current`);
   }
 
+  getAllUsers(): Observable<UserInfoDTO[]> {
+    return this.http.get<UserInfoDTO[]>(`${this.API_URL}`);
+  }
+
+  getUserById(id: number): Observable<UserInfoDTO> {
+    return this.http.get<UserInfoDTO>(`${this.API_URL}/${id}`);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/${id}`);
+  }
+
   updateOptionalInfo(info: OptionalUserInfoDTO): Observable<UserInfoDTO> {
     return this.http.put<UserInfoDTO>(`${this.API_URL}/current/optional-info`, info);
   }
