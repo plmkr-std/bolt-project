@@ -227,12 +227,12 @@ export class DocumentsComponent implements OnInit {
       creationTime: creationTimes[i],
       sizeBytes: Math.random() * 10000000 + 1000000,
       validationStats: {
-        totalChecks: Math.floor(Math.random() * 20) + 10,
-        passedChecks: Math.floor(Math.random() * 15) + 5,
-        failedChecks: Math.floor(Math.random() * 5),
+        totalChecks: 22,
+        passedChecks: 15,
+        failedChecks: 7,
         durationMs: Math.floor(Math.random() * 2000) + 500,
-        commentsCount: Math.floor(Math.random() * 10),
-        fixCount: Math.floor(Math.random() * 5)
+        commentsCount: 3,
+        fixCount: 0
       }
     }));
   }
