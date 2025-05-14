@@ -44,6 +44,16 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'directories',
+    loadComponent: () => import('./components/directories/directories.component').then(m => m.DirectoriesComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'documents/:directoryId',
+    loadComponent: () => import('./components/documents/documents.component').then(m => m.DocumentsComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: 'storage',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [authGuard]
