@@ -33,11 +33,11 @@ import { ChangePasswordModalComponent } from './change-password-modal/change-pas
             </div>
           </div>
 
-          @if (errorMessage) {
+          #@if (errorMessage) {
             <div class="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded-md mb-4">
               {{ errorMessage }}
             </div>
-          // }
+          }
 
           @if (successMessage) {
             <div class="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-md mb-4">
