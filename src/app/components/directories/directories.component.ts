@@ -25,7 +25,7 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
             </div>
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
               <button
-                class="btn btn-error"
+                class="bg-error-600 hover:bg-error-700 text-white px-4 py-2 rounded-md"
                 [disabled]="!selectedDirectories.length && !directories.length"
                 (click)="confirmDeleteSelected()"
               >
