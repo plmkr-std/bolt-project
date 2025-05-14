@@ -65,6 +65,7 @@ export class NotificationService {
         id: '456',
         type: 'SYSTEM'
       }
+    }
   ];
 
   constructor(private http: HttpClient) {}
