@@ -108,9 +108,9 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/valid
                       [(ngModel)]="settings.sectionSettings.fieldTemplate"
                       class="form-input"
                     >
-                      <option value="standard">Стандартный (2см везде)</option>
-                      <option value="wide">Широкий (3см слева)</option>
-                      <option value="narrow">Узкий (1.5см везде)</option>
+                      <option value="standard">Стандартный</option>
+                      <option value="wide">Широкий</option>
+                      <option value="narrow">Узкий</option>
                     </select>
                   </div>
                 </div>
@@ -215,40 +215,6 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/valid
                   </div>
                 </div>
 
-                <!-- Структурные элементы -->
-                <div class="space-y-4">
-                  <h4 class="text-sm font-medium text-gray-700">Структурные элементы</h4>
-                  
-                  <div class="space-y-2">
-                    <div class="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        [checked]="settings.structureElements.includes('title')"
-                        (change)="toggleStructureElement('title')"
-                        class="form-checkbox"
-                      >
-                      <span class="text-sm text-gray-700">Титульный лист</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        [checked]="settings.structureElements.includes('contents')"
-                        (change)="toggleStructureElement('contents')"
-                        class="form-checkbox"
-                      >
-                      <span class="text-sm text-gray-700">Оглавление</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        [checked]="settings.structureElements.includes('bibliography')"
-                        (change)="toggleStructureElement('bibliography')"
-                        class="form-checkbox"
-                      >
-                      <span class="text-sm text-gray-700">Список литературы</span>
-                    </div>
-                  </div>
-                </div>
 
                 <!-- Дополнительные настройки -->
                 <div class="space-y-4">
