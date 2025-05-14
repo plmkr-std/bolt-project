@@ -1,28 +1,31 @@
 export interface ValidationSettingsDTO {
-  minWordCount: number;
-  maxWordCount: number;
-  allowedFileExtensions: string[];
-  maxFileSize: number; // in bytes
-  checkPlagiarism: boolean;
-  plagiarismThreshold: number; // percentage
-  checkGrammar: boolean;
-  checkFormatting: boolean;
-  languageCode: string;
+  sectionSettings: SectionSettings;
+  paragraphSettings: ParagraphSettings;
+  textSettings: TextSettings;
+  structureElements: string[];
+  toFix: boolean;
+}
+
+export interface SectionSettings {
+  pageFormat: string;
+  fieldTemplate: string;
+}
+
+export interface ParagraphSettings {
+  firstLine: number;
+  lineSpacing: number;
+  intervalBeforeSpacing: number;
+  intervalAfterSpacing: number;
+}
+
+export interface TextSettings {
+  fontStyle: string;
+  leftBorderFontSize: number;
+  rightBorderFontSize: number;
 }
 
 export interface ValidationResponseDTO {
   success: boolean;
   message: string;
-  errors?: {
-    wordCount?: string;
-    plagiarism?: string;
-    grammar?: string;
-    formatting?: string;
-  };
-  details?: {
-    wordCount: number;
-    plagiarismPercentage?: number;
-    grammarErrors?: number;
-    formattingErrors?: number;
-  };
+  data?: any;
 }

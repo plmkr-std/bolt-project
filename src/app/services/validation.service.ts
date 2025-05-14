@@ -7,7 +7,7 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../models/validati
   providedIn: 'root'
 })
 export class ValidationService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = 'http://localhost:8083/api';
 
   constructor(private http: HttpClient) {}
 
@@ -16,11 +16,13 @@ export class ValidationService {
     const mockResponse: ValidationResponseDTO = {
       success: true,
       message: 'Документ успешно проверен',
-      details: {
-        wordCount: 1500,
-        plagiarismPercentage: 15,
-        grammarErrors: 5,
-        formattingErrors: 2
+      data: {
+        totalChecks: 25,
+        passedChecks: 20,
+        failedChecks: 5,
+        durationMs: 1500,
+        commentsCount: 3,
+        fixCount: 2
       }
     };
 

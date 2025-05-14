@@ -74,123 +74,192 @@ import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/valid
                     <p class="font-medium" [class.text-success-700]="validationResponse.success" [class.text-error-700]="!validationResponse.success">
                       {{ validationResponse.message }}
                     </p>
-                    @if (validationResponse.details) {
-                      <div class="mt-2 space-y-1 text-sm">
-                        <p>Количество слов: {{ validationResponse.details.wordCount }}</p>
-                        @if (validationResponse.details.plagiarismPercentage !== undefined) {
-                          <p>Процент плагиата: {{ validationResponse.details.plagiarismPercentage }}%</p>
-                        }
-                        @if (validationResponse.details.grammarErrors !== undefined) {
-                          <p>Грамматических ошибок: {{ validationResponse.details.grammarErrors }}</p>
-                        }
-                        @if (validationResponse.details.formattingErrors !== undefined) {
-                          <p>Ошибок форматирования: {{ validationResponse.details.formattingErrors }}</p>
-                        }
-                      </div>
-                    }
                   </div>
                 }
               </div>
 
               <!-- Настройки валидации -->
-              <div class="space-y-4">
+              <div class="space-y-6">
                 <h3 class="text-lg font-medium text-gray-900">Настройки проверки</h3>
 
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">
-                    Минимальное количество слов
-                  </label>
-                  <input
-                    type="number"
-                    [(ngModel)]="settings.minWordCount"
-                    class="form-input"
-                    min="0"
-                  >
-                </div>
-
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">
-                    Максимальное количество слов
-                  </label>
-                  <input
-                    type="number"
-                    [(ngModel)]="settings.maxWordCount"
-                    class="form-input"
-                    min="0"
-                  >
-                </div>
-
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">
-                    Максимальный размер файла (МБ)
-                  </label>
-                  <input
-                    type="number"
-                    [(ngModel)]="settings.maxFileSize"
-                    class="form-input"
-                    min="0"
-                    (ngModelChange)="onMaxFileSizeChange($event)"
-                  >
-                </div>
-
-                <div class="space-y-2">
-                  <label class="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="settings.checkPlagiarism"
-                      class="form-checkbox"
+                <!-- Настройки раздела -->
+                <div class="space-y-4">
+                  <h4 class="text-sm font-medium text-gray-700">Настройки раздела</h4>
+                  
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Формат страницы
+                    </label>
+                    <select
+                      [(ngModel)]="settings.sectionSettings.pageFormat"
+                      class="form-input"
                     >
-                    <span class="text-sm font-medium text-gray-700">Проверять на плагиат</span>
-                  </label>
-                  @if (settings.checkPlagiarism) {
-                    <div class="ml-6">
+                      <option value="A4">A4</option>
+                      <option value="A3">A3</option>
+                      <option value="Letter">Letter</option>
+                    </select>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Шаблон полей
+                    </label>
+                    <select
+                      [(ngModel)]="settings.sectionSettings.fieldTemplate"
+                      class="form-input"
+                    >
+                      <option value="standard">Стандартный (2см везде)</option>
+                      <option value="wide">Широкий (3см слева)</option>
+                      <option value="narrow">Узкий (1.5см везде)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Настройки параграфа -->
+                <div class="space-y-4">
+                  <h4 class="text-sm font-medium text-gray-700">Настройки параграфа</h4>
+                  
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Абзацный отступ (см)
+                    </label>
+                    <input
+                      type="number"
+                      [(ngModel)]="settings.paragraphSettings.firstLine"
+                      class="form-input"
+                      step="0.1"
+                      min="0"
+                    >
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Межстрочный интервал
+                    </label>
+                    <input
+                      type="number"
+                      [(ngModel)]="settings.paragraphSettings.lineSpacing"
+                      class="form-input"
+                      step="0.1"
+                      min="1"
+                    >
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Интервал перед (пт)
+                    </label>
+                    <input
+                      type="number"
+                      [(ngModel)]="settings.paragraphSettings.intervalBeforeSpacing"
+                      class="form-input"
+                      min="0"
+                    >
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Интервал после (пт)
+                    </label>
+                    <input
+                      type="number"
+                      [(ngModel)]="settings.paragraphSettings.intervalAfterSpacing"
+                      class="form-input"
+                      min="0"
+                    >
+                  </div>
+                </div>
+
+                <!-- Настройки текста -->
+                <div class="space-y-4">
+                  <h4 class="text-sm font-medium text-gray-700">Настройки текста</h4>
+                  
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Стиль шрифта
+                    </label>
+                    <select
+                      [(ngModel)]="settings.textSettings.fontStyle"
+                      class="form-input"
+                    >
+                      <option value="Times New Roman">Times New Roman</option>
+                      <option value="Arial">Arial</option>
+                      <option value="Calibri">Calibri</option>
+                    </select>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
                       <label class="block text-sm font-medium text-gray-700">
-                        Порог плагиата (%)
+                        Мин. размер шрифта
                       </label>
                       <input
                         type="number"
-                        [(ngModel)]="settings.plagiarismThreshold"
+                        [(ngModel)]="settings.textSettings.leftBorderFontSize"
                         class="form-input"
-                        min="0"
-                        max="100"
+                        min="8"
                       >
                     </div>
-                  }
+
+                    <div class="space-y-2">
+                      <label class="block text-sm font-medium text-gray-700">
+                        Макс. размер шрифта
+                      </label>
+                      <input
+                        type="number"
+                        [(ngModel)]="settings.textSettings.rightBorderFontSize"
+                        class="form-input"
+                        min="8"
+                      >
+                    </div>
+                  </div>
                 </div>
 
-                <div class="space-y-2">
-                  <label class="flex items-center space-x-2">
+                <!-- Структурные элементы -->
+                <div class="space-y-4">
+                  <h4 class="text-sm font-medium text-gray-700">Структурные элементы</h4>
+                  
+                  <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        [checked]="settings.structureElements.includes('title')"
+                        (change)="toggleStructureElement('title')"
+                        class="form-checkbox"
+                      >
+                      <span class="text-sm text-gray-700">Титульный лист</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        [checked]="settings.structureElements.includes('contents')"
+                        (change)="toggleStructureElement('contents')"
+                        class="form-checkbox"
+                      >
+                      <span class="text-sm text-gray-700">Оглавление</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        [checked]="settings.structureElements.includes('bibliography')"
+                        (change)="toggleStructureElement('bibliography')"
+                        class="form-checkbox"
+                      >
+                      <span class="text-sm text-gray-700">Список литературы</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Дополнительные настройки -->
+                <div class="space-y-4">
+                  <div class="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      [(ngModel)]="settings.checkGrammar"
+                      [(ngModel)]="settings.toFix"
                       class="form-checkbox"
                     >
-                    <span class="text-sm font-medium text-gray-700">Проверять грамматику</span>
-                  </label>
-                </div>
-
-                <div class="space-y-2">
-                  <label class="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="settings.checkFormatting"
-                      class="form-checkbox"
-                    >
-                    <span class="text-sm font-medium text-gray-700">Проверять форматирование</span>
-                  </label>
-                </div>
-
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">
-                    Язык документа
-                  </label>
-                  <select
-                    [(ngModel)]="settings.languageCode"
-                    class="form-input"
-                  >
-                    <option value="ru">Русский</option>
-                    <option value="en">English</option>
-                  </select>
+                    <span class="text-sm text-gray-700">Автоматически исправлять ошибки</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -218,15 +287,23 @@ export class DashboardComponent {
   validationResponse: ValidationResponseDTO | null = null;
 
   settings: ValidationSettingsDTO = {
-    minWordCount: 1000,
-    maxWordCount: 5000,
-    allowedFileExtensions: ['.docx'],
-    maxFileSize: 10 * 1024 * 1024, // 10MB в байтах
-    checkPlagiarism: true,
-    plagiarismThreshold: 20,
-    checkGrammar: true,
-    checkFormatting: true,
-    languageCode: 'ru'
+    sectionSettings: {
+      pageFormat: 'A4',
+      fieldTemplate: 'standard'
+    },
+    paragraphSettings: {
+      firstLine: 1.25,
+      lineSpacing: 1.5,
+      intervalBeforeSpacing: 0,
+      intervalAfterSpacing: 0
+    },
+    textSettings: {
+      fontStyle: 'Times New Roman',
+      leftBorderFontSize: 12,
+      rightBorderFontSize: 14
+    },
+    structureElements: ['title', 'contents'],
+    toFix: false
   };
 
   constructor(private validationService: ValidationService) {}
@@ -267,11 +344,6 @@ export class DashboardComponent {
       return;
     }
 
-    if (file.size > this.settings.maxFileSize) {
-      alert(`Размер файла не должен превышать ${this.settings.maxFileSize / 1024 / 1024}MB`);
-      return;
-    }
-
     this.selectedFile = file;
     this.validationResponse = null;
   }
@@ -281,8 +353,13 @@ export class DashboardComponent {
     this.validationResponse = null;
   }
 
-  onMaxFileSizeChange(size: number): void {
-    this.settings.maxFileSize = size * 1024 * 1024; // Конвертируем МБ в байты
+  toggleStructureElement(element: string): void {
+    const index = this.settings.structureElements.indexOf(element);
+    if (index === -1) {
+      this.settings.structureElements.push(element);
+    } else {
+      this.settings.structureElements.splice(index, 1);
+    }
   }
 
   validateDocument(): void {
@@ -290,6 +367,10 @@ export class DashboardComponent {
 
     this.isValidating = true;
     this.validationResponse = null;
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('settings', JSON.stringify(this.settings));
 
     this.validationService.validateDocument(this.selectedFile, this.settings)
       .subscribe({
