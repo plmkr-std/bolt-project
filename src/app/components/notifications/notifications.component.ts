@@ -57,8 +57,8 @@ import { NotificationDTO, NotificationFilter } from '../../models/notification.m
           <!-- Фильтры -->
           <div class="px-4 py-2 border-b border-gray-200 flex space-x-4">
             <button
-              *ngFor="let f of ['all', 'unread', 'read'] as const"
-              (click)="currentFilter = f as NotificationFilter"
+              *ngFor="let f of ['all', 'unread', 'read']"
+              (click)="setFilter(f)"
               class="text-sm"
               [class.text-primary-600]="currentFilter === f"
               [class.text-gray-600]="currentFilter !== f"
@@ -161,6 +161,10 @@ export class NotificationsComponent implements OnInit {
 
   closeDropdown(): void {
     this.isOpen = false;
+  }
+
+  setFilter(filter: string): void {
+    this.currentFilter = filter as NotificationFilter;
   }
 
   loadNotifications(): void {
