@@ -5,11 +5,13 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { ValidationService } from '../../services/validation.service';
 import { ValidationSettingsDTO, ValidationResponseDTO } from '../../models/validation.model';
 import { ValidationSettingsModalComponent } from './validation-settings-modal/validation-settings-modal.component';
+import { TemplateModalComponent } from './template-modal/template-modal.component';
+import { ValidationTemplateDTO } from '../../models/validation-template.model';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, ValidationSettingsModalComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, ValidationSettingsModalComponent, TemplateModalComponent],
   template: `
     <div class="min-h-screen bg-gray-50">
       <app-header />
@@ -185,6 +187,12 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
                 <div class="flex justify-end space-x-3">
                   <button
                     class="btn btn-secondary min-w-[140px]"
+                    (click)="showTemplateModal = true"
+                  >
+                    Выбрать шаблон
+                  </button>
+                  <button
+                    class="btn btn-secondary min-w-[140px]"
                     (click)="showSettingsModal = true"
                   >
                     Изменить настройки
@@ -211,6 +219,14 @@ import { ValidationSettingsModalComponent } from './validation-settings-modal/va
         (cancel)="showSettingsModal = false"
       />
     }
+
+    @if (showTemplateModal) {
+      <app-template-modal
+        [currentSettings]="settings"
+        (select)="onTemplateSelect($event)"
+        (close)="showTemplateModal = false"
+      />
+    }
   `
 })
 export class DashboardComponent {
@@ -219,6 +235,7 @@ export class DashboardComponent {
   isValidating = false;
   validationResponse: ValidationResponseDTO | null = null;
   showSettingsModal = false;
+  showTemplateModal = false;
 
   settings: ValidationSettingsDTO = {
     sectionSettings: {
@@ -290,6 +307,29 @@ export class DashboardComponent {
   onSettingsSave(newSettings: ValidationSettingsDTO): void {
     this.settings = { ...newSettings };
     this.showSettingsModal = false;
+  }
+
+  onTemplateSelect(template: ValidationTemplateDTO): void {
+    this.settings = {
+      sectionSettings: {
+        pageFormat: template.settings.sectionSettings.pageTemplate,
+        fieldTemplate: template.settings.sectionSettings.fieldTemplate
+      },
+      paragraphSettings: {
+        firstLine: template.settings.paragraphSettings.firstLine,
+        lineSpacing: template.settings.paragraphSettings.lineSpacing,
+        intervalBeforeSpacing: template.settings.paragraphSettings.intervalBeforeSpacing,
+        intervalAfterSpacing: template.settings.paragraphSettings.intervalAfterSpacing
+      },
+      textSettings: {
+        fontStyle: template.settings.textSettings.fontStyle,
+        leftBorderFontSize: template.settings.textSettings.leftBorderSize,
+        rightBorderFontSize: template.settings.textSettings.rightBorderSize
+      },
+      structureElements: ['title', 'contents'],
+      toFix: template.settings.autofix
+    };
+    this.showTemplateModal = false;
   }
 
   validateDocument(): void {
