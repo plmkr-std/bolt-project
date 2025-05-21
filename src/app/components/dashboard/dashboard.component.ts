@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -184,21 +184,21 @@ import { ValidationTemplateDTO } from '../../models/validation-template.model';
                 </div>
 
                 <!-- Кнопки управления -->
-                <div class="flex justify-end space-x-3">
+                <div class="flex justify-end space-x-2">
                   <button
-                    class="btn btn-secondary min-w-[140px]"
+                    class="px-3 py-1.5 text-sm btn btn-secondary"
                     (click)="showTemplateModal = true"
                   >
                     Выбрать шаблон
                   </button>
                   <button
-                    class="btn btn-secondary min-w-[140px]"
+                    class="px-3 py-1.5 text-sm btn btn-secondary"
                     (click)="showSettingsModal = true"
                   >
                     Изменить настройки
                   </button>
                   <button
-                    class="btn btn-primary min-w-[140px]"
+                    class="px-3 py-1.5 text-sm btn btn-primary"
                     [disabled]="!selectedFile || isValidating"
                     (click)="validateDocument()"
                   >
