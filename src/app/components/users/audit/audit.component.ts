@@ -87,8 +87,7 @@ import { AuditLogDTO, AuditLogFilter } from '../../../models/audit.model';
                       <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Время</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Действие</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Тип сущности</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ID сущности</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Описание</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -102,16 +101,13 @@ import { AuditLogDTO, AuditLogFilter } from '../../../models/audit.model';
                               {{ getActionText(log.action) }}
                             </span>
                           </td>
-                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ getEntityTypeText(log.entity_type) }}
-                          </td>
-                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ log.entity_id }}
+                          <td class="px-3 py-4 text-sm text-gray-500">
+                            {{ getActionDescription(log) }}
                           </td>
                         </tr>
                       } @empty {
                         <tr>
-                          <td colspan="4" class="px-3 py-4 text-sm text-center text-gray-500">
+                          <td colspan="3" class="px-3 py-4 text-sm text-center text-gray-500">
                             Нет записей
                           </td>
                         </tr>
@@ -146,8 +142,8 @@ export class AuditComponent implements OnInit {
         id: BigInt(1),
         user_id: BigInt(this.userId || 1),
         action: 'LOGIN',
-        entity_type: 'USER',
-        entity_id: BigInt(1),
+        entity_type: 'SYSTEM',
+        entity_id: BigInt(0),
         timestamp: new Date(now.getTime() - 1000 * 60 * 5).toISOString() // 5 minutes ago
       },
       {
@@ -249,15 +245,34 @@ export class AuditComponent implements OnInit {
   getEntityTypeText(type: string): string {
     switch (type) {
       case 'USER':
-        return 'Пользователь';
+        return 'пользователя';
       case 'DOCUMENT':
-        return 'Документ';
+        return 'документа';
       case 'DIRECTORY':
-        return 'Директория';
+        return 'директории';
       case 'SYSTEM':
-        return 'Система';
+        return 'системы';
       default:
-        return type;
+        return type.toLowerCase();
+    }
+  }
+
+  getActionDescription(log: AuditLogDTO): string {
+    switch (log.action) {
+      case 'LOGIN':
+        return 'Выполнен вход в систему';
+      case 'LOGOUT':
+        return 'Выполнен выход из системы';
+      case 'CREATE':
+        return `Создан новый объект типа ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+      case 'UPDATE':
+        return `Обновлены данные ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+      case 'DELETE':
+        return `Удален объект типа ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+      case 'VALIDATE':
+        return `Выполнена проверка ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+      default:
+        return `${log.action} ${this.getEntityTypeText(log.entity_type)} (ID: ${log.entity_id})`;
     }
   }
 }
