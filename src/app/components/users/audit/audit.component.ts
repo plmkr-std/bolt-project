@@ -140,7 +140,7 @@ export class AuditComponent implements OnInit {
     
     // Mock data
     const now = new Date();
-    this.username = 'John Doe';
+    this.username = 'Павел Макаров';
     this.logs = [
       {
         id: BigInt(1),
