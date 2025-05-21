@@ -14,7 +14,7 @@ export class ValidationTemplateService {
     {
       _id: '1',
       userId: 1,
-      name: 'Стандартный шаблон',
+      name: 'Новый шаблон',
       createdAt: new Date().toISOString(),
       settings: {
         sectionSettings: {
@@ -38,7 +38,7 @@ export class ValidationTemplateService {
     {
       _id: '2',
       userId: 1,
-      name: 'Шаблон для статей',
+      name: 'Класный шаблон',
       createdAt: new Date().toISOString(),
       settings: {
         sectionSettings: {
