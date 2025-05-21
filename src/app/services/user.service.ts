@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { OptionalUserInfoDTO, UserInfoDTO, ChangeEmailRequestDTO } from '../models/user.model';
+import { Observable, of } from 'rxjs';
+import { OptionalUserInfoDTO, UserInfoDTO, ChangeEmailRequestDTO, UserStatsDTO } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,17 @@ export class UserService {
 
   getCurrentUser(): Observable<UserInfoDTO> {
     return this.http.get<UserInfoDTO>(`${this.API_URL}/current`);
+  }
+
+  getCurrentUserStats(): Observable<UserStatsDTO> {
+    // Mock data for development
+    return of({
+      user_id: BigInt(1),
+      document_uploaded: BigInt(15),
+      validation_performed: BigInt(12),
+      last_activity: new Date().toISOString(),
+      id: BigInt(1)
+    });
   }
 
   getAllUsers(): Observable<UserInfoDTO[]> {

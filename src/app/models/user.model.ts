@@ -32,3 +32,11 @@ export interface ChangePasswordDTO {
   newPassword: string;
   confirmPassword: string;
 }
+
+export interface UserStatsDTO {
+  user_id: bigint;
+  document_uploaded: bigint;
+  validation_performed: bigint;
+  last_activity: string;
+  id: bigint;
+}

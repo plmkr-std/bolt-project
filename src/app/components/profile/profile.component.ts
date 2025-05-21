@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { UserInfoDTO } from '../../models/user.model';
+import { UserInfoDTO, UserStatsDTO } from '../../models/user.model';
 import { ErrorMessageComponent } from '../shared/error-message/error-message.component';
 import { ChangePasswordModalComponent } from './change-password-modal/change-password-modal.component';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -45,6 +45,24 @@ import { HeaderComponent } from '../shared/header/header.component';
             @if (successMessage) {
               <div class="bg-success-50 border border-success-200 text-success-700 px-4 py-3 rounded-md mb-4">
                 {{ successMessage }}
+              </div>
+            }
+
+            <!-- Статистика пользователя -->
+            @if (userStats) {
+              <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <div class="text-sm text-gray-500">Загружено документов</div>
+                  <div class="mt-1 text-2xl font-semibold text-gray-900">{{ userStats.document_uploaded }}</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <div class="text-sm text-gray-500">Выполнено проверок</div>
+                  <div class="mt-1 text-2xl font-semibold text-gray-900">{{ userStats.validation_performed }}</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <div class="text-sm text-gray-500">Последняя активность</div>
+                  <div class="mt-1 text-lg font-semibold text-gray-900">{{ userStats.last_activity | date:'dd.MM.yyyy HH:mm' }}</div>
+                </div>
               </div>
             }
 
@@ -179,6 +197,7 @@ import { HeaderComponent } from '../shared/header/header.component';
 })
 export class ProfileComponent implements OnInit {
   userInfo: UserInfoDTO | null = null;
+  userStats: UserStatsDTO | null = null;
   profileForm: FormGroup;
   emailForm: FormGroup;
   
@@ -233,6 +252,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserInfo();
+    this.loadUserStats();
   }
 
   loadUserInfo(): void {
@@ -248,6 +268,17 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         this.errorMessage = error.message || 'Ошибка при загрузке данных пользователя';
+      }
+    });
+  }
+
+  loadUserStats(): void {
+    this.userService.getCurrentUserStats().subscribe({
+      next: (stats) => {
+        this.userStats = stats;
+      },
+      error: (error) => {
+        console.error('Error loading user stats:', error);
       }
     });
   }
