@@ -79,6 +79,12 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                                 Просмотр
                               </button>
                               <button
+                                class="text-primary-600 hover:text-primary-900"
+                                (click)="viewAudit(user.id)"
+                              >
+                                История
+                              </button>
+                              <button
                                 class="text-error-600 hover:text-error-900"
                                 (click)="confirmDelete(user)"
                               >
@@ -197,6 +203,10 @@ export class UsersComponent implements OnInit {
 
   viewProfile(userId: number): void {
     this.router.navigate(['/profile', userId]);
+  }
+
+  viewAudit(userId: number): void {
+    this.router.navigate(['/users', userId, 'audit']);
   }
 
   confirmDelete(user: UserInfoDTO): void {
