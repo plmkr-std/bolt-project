@@ -43,7 +43,7 @@ import { ValidationSettingsDTO } from '../../../models/validation.model';
                 [class.bg-primary-50]="selectedTemplate?._id === template._id"
                 (click)="selectTemplate(template)"
               >
-                <div class="flex justify-between items-start">
+                <div class="flex justify-between items-start mb-3">
                   <div>
                     <h3 class="font-medium text-gray-900">{{ template.name }}</h3>
                     <p class="text-sm text-gray-500 mt-1">
@@ -57,11 +57,44 @@ import { ValidationSettingsDTO } from '../../../models/validation.model';
                     Удалить
                   </button>
                 </div>
-                <div class="mt-2 text-sm text-gray-600">
-                  <p>{{ template.settings.textSettings.fontStyle }}, 
-                     {{ template.settings.textSettings.leftBorderSize }}-{{ template.settings.textSettings.rightBorderSize }}pt</p>
-                  <p>Интервал: {{ template.settings.paragraphSettings.lineSpacing }}, 
-                     отступ: {{ template.settings.paragraphSettings.firstLine }}см</p>
+
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <!-- Настройки страницы -->
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-1">Настройки страницы</h4>
+                    <ul class="space-y-1 text-gray-600">
+                      <li>Формат: {{ template.settings.sectionSettings.pageTemplate }}</li>
+                      <li>Поля: {{ template.settings.sectionSettings.fieldTemplate }}</li>
+                    </ul>
+                  </div>
+
+                  <!-- Настройки текста -->
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-1">Настройки текста</h4>
+                    <ul class="space-y-1 text-gray-600">
+                      <li>Шрифт: {{ template.settings.textSettings.fontStyle }}</li>
+                      <li>Размер: {{ template.settings.textSettings.leftBorderSize }}-{{ template.settings.textSettings.rightBorderSize }}pt</li>
+                    </ul>
+                  </div>
+
+                  <!-- Настройки параграфа -->
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-1">Настройки параграфа</h4>
+                    <ul class="space-y-1 text-gray-600">
+                      <li>Отступ: {{ template.settings.paragraphSettings.firstLine }}см</li>
+                      <li>Интервал: {{ template.settings.paragraphSettings.lineSpacing }}</li>
+                      <li>Интервал до: {{ template.settings.paragraphSettings.intervalBeforeSpacing }}пт</li>
+                      <li>Интервал после: {{ template.settings.paragraphSettings.intervalAfterSpacing }}пт</li>
+                    </ul>
+                  </div>
+
+                  <!-- Дополнительные настройки -->
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-1">Дополнительно</h4>
+                    <ul class="space-y-1 text-gray-600">
+                      <li>Автоисправление: {{ template.settings.autofix ? 'Включено' : 'Выключено' }}</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             } @empty {
