@@ -264,13 +264,13 @@ export class AuditComponent implements OnInit {
       case 'LOGOUT':
         return 'Выполнен выход из системы';
       case 'CREATE':
-        return `Создан новый объект типа ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+        return `Создан новый объект типа ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'UPDATE':
-        return `Обновлены данные ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+        return `Обновлены данные ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'DELETE':
-        return `Удален объект типа ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+        return `Удален объект типа ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'VALIDATE':
-        return `Выполнена проверка ${this.getEntityTypeText(log.entity_type)} с идентификатором ${log.entity_id}`;
+        return `Выполнена проверка ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       default:
         return `${log.action} ${this.getEntityTypeText(log.entity_type)} (ID: ${log.entity_id})`;
     }
