@@ -138,21 +138,37 @@ export class AuditComponent implements OnInit {
     const now = new Date();
     this.username = 'Павел Макаров';
     this.logs = [
+       {
+        id: BigInt(1),
+        user_id: BigInt(this.userId || 1),
+        action: 'LOGOUT',
+        entity_type: 'SYSTEM',
+        entity_id: BigInt(this.userId || 1),
+        timestamp: new Date(now.getTime() - 1000 * 60 * 38).toISOString() // 38 minutes ago
+      },
       {
         id: BigInt(1),
         user_id: BigInt(this.userId || 1),
-        action: 'LOGIN',
-        entity_type: 'SYSTEM',
-        entity_id: BigInt(0),
-        timestamp: new Date(now.getTime() - 1000 * 60 * 5).toISOString() // 5 minutes ago
+        action: 'UPDATE',
+        entity_type: 'USER',
+        entity_id: BigInt(this.userId || 1),
+        timestamp: new Date(now.getTime() - 1000 * 60 * 40).toISOString() // 40 minutes ago
       },
       {
-        id: BigInt(2),
+        id: BigInt(5),
         user_id: BigInt(this.userId || 1),
         action: 'CREATE',
         entity_type: 'DOCUMENT',
         entity_id: BigInt(3),
-        timestamp: new Date(now.getTime() - 1000 * 60 * 10).toISOString() // 10 minutes ago
+        timestamp: new Date(now.getTime() - 1000 * 60 * 42).toISOString() // 42 minutes ago
+      },
+      {
+        id: BigInt(3),
+        user_id: BigInt(this.userId || 1),
+        action: 'CREATE',
+        entity_type: 'DIRECTORY',
+        entity_id: BigInt(3),
+        timestamp: new Date(now.getTime() - 1000 * 60 * 42).toISOString() // 43 minutes ago
       },
       {
         id: BigInt(3),
@@ -160,22 +176,14 @@ export class AuditComponent implements OnInit {
         action: 'VALIDATE',
         entity_type: 'DOCUMENT',
         entity_id: BigInt(3),
-        timestamp: new Date(now.getTime() - 1000 * 60 * 15).toISOString() // 15 minutes ago
+        timestamp: new Date(now.getTime() - 1000 * 60 * 42).toISOString() // 43 minutes ago
       },
       {
-        id: BigInt(4),
+        id: BigInt(1),
         user_id: BigInt(this.userId || 1),
-        action: 'UPDATE',
-        entity_type: 'USER',
-        entity_id: BigInt(this.userId || 1),
-        timestamp: new Date(now.getTime() - 1000 * 60 * 30).toISOString() // 30 minutes ago
-      },
-      {
-        id: BigInt(5),
-        user_id: BigInt(this.userId || 1),
-        action: 'CREATE',
-        entity_type: 'DIRECTORY',
-        entity_id: BigInt(3),
+        action: 'LOGIN',
+        entity_type: 'SYSTEM',
+        entity_id: BigInt(0),
         timestamp: new Date(now.getTime() - 1000 * 60 * 45).toISOString() // 45 minutes ago
       }
     ];
@@ -270,7 +278,7 @@ export class AuditComponent implements OnInit {
       case 'DELETE':
         return `Удален объект типа ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'VALIDATE':
-        return `Выполнена проверка ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
+        return `Выполнена проверка ${this.getEntityTypeText(log.entity_type)} с именем test`;
       default:
         return `${log.action} ${this.getEntityTypeText(log.entity_type)} (ID: ${log.entity_id})`;
     }
