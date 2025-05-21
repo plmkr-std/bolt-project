@@ -245,11 +245,11 @@ export class AuditComponent implements OnInit {
   getEntityTypeText(type: string): string {
     switch (type) {
       case 'USER':
-        return 'пользователь';
+        return 'Пользователь';
       case 'DOCUMENT':
-        return 'документ';
+        return 'Документ';
       case 'DIRECTORY':
-        return 'директория';
+        return 'Директория';
       case 'SYSTEM':
         return 'системы';
       default:
@@ -266,7 +266,7 @@ export class AuditComponent implements OnInit {
       case 'CREATE':
         return `Создан новый объект типа ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'UPDATE':
-        return `Обновлены данные ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
+        return `Обновлен пароль у ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'DELETE':
         return `Удален объект типа ${this.getEntityTypeText(log.entity_type)} с id ${log.entity_id}`;
       case 'VALIDATE':
