@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../shared/header/header.component';
 import { DirectoryService } from '../../services/directory.service';
-import { DocumentDirectoryDTO } from '../../models/directory.model';
+import { DocumentDirectoryDTO, DirectoryTag } from '../../models/directory.model';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 
 @Component({
@@ -32,6 +32,51 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                 {{ selectedDirectories.length ? 'Удалить выбранные' : 'Удалить все' }}
               </button>
             </div>
+          </div>
+
+          <!-- Фильтры по тегам -->
+          <div class="mt-4 flex flex-wrap gap-2">
+            @for (tag of tags; track tag.id) {
+              <button
+                class="px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200"
+                [style.backgroundColor]="selectedTags.includes(tag.name) ? tag.color : 'transparent'"
+                [style.color]="selectedTags.includes(tag.name) ? 'white' : 'inherit'"
+                [style.border]="'2px solid ' + tag.color"
+                (click)="toggleTagFilter(tag.name)"
+              >
+                {{ tag.name }}
+              </button>
+            }
+            <button
+              class="px-3 py-1 rounded-full text-sm font-medium border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors duration-200"
+              (click)="showNewTagInput = true"
+              *ngIf="!showNewTagInput"
+            >
+              + Добавить тег
+            </button>
+            @if (showNewTagInput) {
+              <div class="flex items-center space-x-2">
+                <input
+                  type="text"
+                  [(ngModel)]="newTagName"
+                  (keyup.enter)="createTag()"
+                  class="px-3 py-1 rounded-full text-sm border-2 border-gray-300 focus:border-primary-500 focus:outline-none"
+                  placeholder="Название тега"
+                >
+                <button
+                  class="text-primary-600 hover:text-primary-800"
+                  (click)="createTag()"
+                >
+                  Добавить
+                </button>
+                <button
+                  class="text-gray-400 hover:text-gray-600"
+                  (click)="cancelTagCreation()"
+                >
+                  Отмена
+                </button>
+              </div>
+            }
           </div>
 
           @if (errorMessage) {
@@ -62,6 +107,7 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                           >
                         </th>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Название</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Теги</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Создано</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Изменено</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Размер</th>
@@ -72,7 +118,7 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                      @for (directory of directories; track directory.id) {
+                      @for (directory of filteredDirectories; track directory.id) {
                         <tr
                           (dblclick)="navigateToDocuments(directory.id)"
                           class="hover:bg-gray-50 cursor-pointer"
@@ -87,6 +133,24 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                           </td>
                           <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                             {{ directory.name }}
+                          </td>
+                          <td class="px-3 py-4">
+                            <div class="flex flex-wrap gap-1">
+                              @for (tag of directory.tags; track tag) {
+                                <span
+                                  class="px-2 py-0.5 rounded-full text-xs font-medium text-white"
+                                  [style.backgroundColor]="getTagColor(tag)"
+                                >
+                                  {{ tag }}
+                                </span>
+                              }
+                              <button
+                                class="px-2 py-0.5 rounded-full text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                (click)="editDirectoryTags(directory)"
+                              >
+                                {{ directory.tags.length ? 'Изменить' : '+ Добавить' }}
+                              </button>
+                            </div>
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {{ directory.creationTime | date:'dd.MM.yyyy HH:mm' }}
@@ -119,7 +183,7 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
                         </tr>
                       } @empty {
                         <tr>
-                          <td colspan="7" class="py-8 text-center text-gray-500">
+                          <td colspan="8" class="py-8 text-center text-gray-500">
                             Нет доступных директорий
                           </td>
                         </tr>
@@ -157,6 +221,55 @@ import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.com
         (cancel)="showDeleteSelectedModal = false"
       />
     }
+
+    @if (directoryForTags) {
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Теги директории</h2>
+            <button 
+              (click)="directoryForTags = null"
+              class="text-gray-400 hover:text-gray-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex flex-wrap gap-2">
+              @for (tag of tags; track tag.id) {
+                <button
+                  class="px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200"
+                  [style.backgroundColor]="isTagSelected(tag.name) ? tag.color : 'transparent'"
+                  [style.color]="isTagSelected(tag.name) ? 'white' : 'inherit'"
+                  [style.border]="'2px solid ' + tag.color"
+                  (click)="toggleDirectoryTag(tag.name)"
+                >
+                  {{ tag.name }}
+                </button>
+              }
+            </div>
+
+            <div class="flex justify-end space-x-3">
+              <button
+                class="btn btn-secondary"
+                (click)="directoryForTags = null"
+              >
+                Отмена
+              </button>
+              <button
+                class="btn btn-primary"
+                (click)="saveDirectoryTags()"
+              >
+                Сохранить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   `
 })
 export class DirectoriesComponent implements OnInit {
@@ -167,6 +280,13 @@ export class DirectoriesComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
+  tags: DirectoryTag[] = [];
+  selectedTags: string[] = [];
+  showNewTagInput = false;
+  newTagName = '';
+  directoryForTags: DocumentDirectoryDTO | null = null;
+  selectedDirectoryTags: string[] = [];
+
   constructor(
     private directoryService: DirectoryService,
     private router: Router
@@ -174,10 +294,20 @@ export class DirectoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDirectories();
+    this.loadTags();
   }
 
   get isAllSelected(): boolean {
     return this.directories.length > 0 && this.selectedDirectories.length === this.directories.length;
+  }
+
+  get filteredDirectories(): DocumentDirectoryDTO[] {
+    if (!this.selectedTags.length) {
+      return this.directories;
+    }
+    return this.directories.filter(directory =>
+      this.selectedTags.every(tag => directory.tags.includes(tag))
+    );
   }
 
   loadDirectories(): void {
@@ -189,6 +319,12 @@ export class DirectoriesComponent implements OnInit {
       error: (error) => {
         this.errorMessage = error.message || 'Ошибка при загрузке списка директорий';
       }
+    });
+  }
+
+  loadTags(): void {
+    this.directoryService.getAllTags().subscribe(tags => {
+      this.tags = tags;
     });
   }
 
@@ -219,6 +355,65 @@ export class DirectoriesComponent implements OnInit {
       this.selectedDirectories = this.directories.map(d => d.id);
     } else {
       this.selectedDirectories = [];
+    }
+  }
+
+  toggleTagFilter(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+    if (index === -1) {
+      this.selectedTags.push(tag);
+    } else {
+      this.selectedTags.splice(index, 1);
+    }
+  }
+
+  createTag(): void {
+    if (this.newTagName.trim()) {
+      this.directoryService.createTag(this.newTagName.trim()).subscribe(tag => {
+        this.tags.push(tag);
+        this.showNewTagInput = false;
+        this.newTagName = '';
+      });
+    }
+  }
+
+  cancelTagCreation(): void {
+    this.showNewTagInput = false;
+    this.newTagName = '';
+  }
+
+  getTagColor(tagName: string): string {
+    const tag = this.tags.find(t => t.name === tagName);
+    return tag ? tag.color : '#9CA3AF';
+  }
+
+  editDirectoryTags(directory: DocumentDirectoryDTO): void {
+    this.directoryForTags = directory;
+    this.selectedDirectoryTags = [...directory.tags];
+  }
+
+  isTagSelected(tagName: string): boolean {
+    return this.selectedDirectoryTags.includes(tagName);
+  }
+
+  toggleDirectoryTag(tagName: string): void {
+    const index = this.selectedDirectoryTags.indexOf(tagName);
+    if (index === -1) {
+      this.selectedDirectoryTags.push(tagName);
+    } else {
+      this.selectedDirectoryTags.splice(index, 1);
+    }
+  }
+
+  saveDirectoryTags(): void {
+    if (this.directoryForTags) {
+      this.directoryService.updateDirectoryTags(this.directoryForTags.id, this.selectedDirectoryTags)
+        .subscribe(() => {
+          if (this.directoryForTags) {
+            this.directoryForTags.tags = [...this.selectedDirectoryTags];
+            this.directoryForTags = null;
+          }
+        });
     }
   }
 

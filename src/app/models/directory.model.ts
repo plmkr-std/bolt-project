@@ -5,4 +5,11 @@ export interface DocumentDirectoryDTO {
   changeTime: string;
   totalSizeBytes: number;
   documentsCount: number;
+  tags: string[];
+}
+
+export interface DirectoryTag {
+  id: string;
+  name: string;
+  color: string;
 }
