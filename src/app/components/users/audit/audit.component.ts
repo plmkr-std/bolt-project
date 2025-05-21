@@ -245,11 +245,11 @@ export class AuditComponent implements OnInit {
   getEntityTypeText(type: string): string {
     switch (type) {
       case 'USER':
-        return 'пользователя';
+        return 'пользователь';
       case 'DOCUMENT':
-        return 'документа';
+        return 'документ';
       case 'DIRECTORY':
-        return 'директории';
+        return 'директория';
       case 'SYSTEM':
         return 'системы';
       default:
