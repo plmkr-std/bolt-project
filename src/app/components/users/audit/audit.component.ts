@@ -146,8 +146,8 @@ export class AuditComponent implements OnInit {
         id: BigInt(1),
         user_id: BigInt(this.userId || 1),
         action: 'LOGIN',
-        entity_type: 'SYSTEM',
-        entity_id: BigInt(0),
+        entity_type: 'USER',
+        entity_id: BigInt(1),
         timestamp: new Date(now.getTime() - 1000 * 60 * 5).toISOString() // 5 minutes ago
       },
       {
@@ -155,7 +155,7 @@ export class AuditComponent implements OnInit {
         user_id: BigInt(this.userId || 1),
         action: 'CREATE',
         entity_type: 'DOCUMENT',
-        entity_id: BigInt(123),
+        entity_id: BigInt(3),
         timestamp: new Date(now.getTime() - 1000 * 60 * 10).toISOString() // 10 minutes ago
       },
       {
@@ -163,7 +163,7 @@ export class AuditComponent implements OnInit {
         user_id: BigInt(this.userId || 1),
         action: 'VALIDATE',
         entity_type: 'DOCUMENT',
-        entity_id: BigInt(123),
+        entity_id: BigInt(3),
         timestamp: new Date(now.getTime() - 1000 * 60 * 15).toISOString() // 15 minutes ago
       },
       {
@@ -179,7 +179,7 @@ export class AuditComponent implements OnInit {
         user_id: BigInt(this.userId || 1),
         action: 'CREATE',
         entity_type: 'DIRECTORY',
-        entity_id: BigInt(456),
+        entity_id: BigInt(3),
         timestamp: new Date(now.getTime() - 1000 * 60 * 45).toISOString() // 45 minutes ago
       }
     ];
