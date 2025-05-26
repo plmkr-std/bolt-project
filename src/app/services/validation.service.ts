@@ -17,12 +17,12 @@ export class ValidationService {
       success: true,
       message: 'Статистика по проверке:',
       data: {
-        totalChecks: 25,
-        passedChecks: 20,
-        failedChecks: 5,
-        durationMs: 1500,
-        commentsCount: 3,
-        fixCount: 2
+        totalChecks: 215,
+        passedChecks: 193,
+        failedChecks: 22,
+        durationMs: 3624,
+        commentsCount: 14,
+        fixCount: 0
       }
     };
 
